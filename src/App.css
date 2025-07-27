@@ -1,0 +1,21 @@
+/* Scrollbar styles */
+.scrollbar-orange::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-orange::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 9999px;
+}
+
+.scrollbar-orange::-webkit-scrollbar-thumb {
+  background-color: #fb923c; /* Tailwind orange-400 */
+  border-radius: 9999px;
+  border: 2px solid white; /* Optional: adds padding effect */
+}
+
+/* For Firefox */
+.scrollbar-orange {
+  scrollbar-width: thin;
+  scrollbar-color: #fb923c transparent;
+}

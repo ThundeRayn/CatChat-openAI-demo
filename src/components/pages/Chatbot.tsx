@@ -1,8 +1,11 @@
-
+import { Button } from "../../components/ui/button"
 
 const Chatbot = () => {
   return (
-    <div>Chatbot</div>
+    <div>
+      <p>Chatbot</p>
+      <Button variant="default_cat">Click me</Button>
+    </div>
   )
 }
 

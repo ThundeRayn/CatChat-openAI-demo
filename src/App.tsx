@@ -1,12 +1,12 @@
 import './App.css'
-import { Button } from "./components/ui/button"
+import Chatbot from './components/pages/Chatbot'
 
 function App() {
 
   return (
     <>
       <div className='flex flex-col items-center justify-center h-screen'>
-        <Button className='hover:cursor-pointer'>Click me</Button>
+        <Chatbot />
       </div>
     </>
   )

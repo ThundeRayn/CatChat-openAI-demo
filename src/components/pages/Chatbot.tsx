@@ -9,16 +9,20 @@ const Chatbot = () => {
   //dynamically adjust the height of the textarea
   const adjustHeight = () => {
     const textarea = textareaRef.current;
-    if (!textarea){return};
+    if (!textarea) { return; }
+
+    const minHeight = 48; // px, matches h-12
+    const maxRows = 3;
+    const lineHeight = 24; // px, matches leading-6
+    const maxHeight = maxRows * lineHeight;
 
     textarea.style.height = 'auto';
-
-    const maxRows = 3;
-    const lineHeight = 24;  // Assuming a line height of 24px, adjust as necessary
-    const maxHeight = maxRows * lineHeight;
     const scrollHeight = textarea.scrollHeight;
 
-    if (scrollHeight <= maxHeight) {
+    if (scrollHeight <= minHeight) {
+      textarea.style.height = minHeight + 'px';
+      textarea.style.overflowY = 'hidden';
+    } else if (scrollHeight <= maxHeight) {
       textarea.style.height = scrollHeight + 'px';
       textarea.style.overflowY = 'hidden';
     } else {
@@ -47,14 +51,15 @@ const Chatbot = () => {
       </div>
 
       <div id="send-field" className="flex px-6 py-4 border border-t-0 border-orange-300 rounded-b-lg">
-        <form className="flex justify-center items-center gap-2 w-full">
+        <form 
+          className="flex justify-center items-center gap-2 w-full">
           <textarea
             ref={textareaRef}
             value={value}
             onChange={(e) => setValue(e.target.value)}
             rows={1}
             placeholder="Say something to the cat..."
-            className="w-90 h-12 border border-orange-300 resize-none rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400/70 scrollbar-orange"
+            className="w-90 px-2 py-2 leading-6 border border-orange-300 resize-none rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400/70 scrollbar-orange"
           /> 
           <Button 
             variant="default_cat" 

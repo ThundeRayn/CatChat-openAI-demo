@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "../../components/ui/button"
 import ChatBubble from "../../components/ui/chatbubble"
 
-const FUNCTION_URL = 'https://ok35xbmgxbwcyn6metu6ygxbnq0mktyi.lambda-url.ca-central-1.on.aws/';
+const FUNCTION_URL = 'https://ok35xbmgxbwcyn6metu6ygxbnq0mktyi.lambda-url.ca-central-1.on.aws';
 
 type Message = {
   text: string;

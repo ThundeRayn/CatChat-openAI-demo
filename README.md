@@ -21,8 +21,8 @@ A minimal and responsive AI-powered chatbot built with React, TailwindCSS, and O
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/your-username/ai-chatbot-demo.git
-cd ai-chatbot-demo
+git clone https://github.com/ThundeRayn/CatChat-openAI-demo.git
+cd CatChat-openAI-demo
 ```
 
 ### 2. Install dependencies

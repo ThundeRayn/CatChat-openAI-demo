@@ -1,12 +1,51 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../../components/ui/button"
 import ChatBubble from "../../components/ui/chatbubble"
+import { time } from "console";
+
+
+type Message = {
+  text: string;
+  sender: 'user' | 'bot';
+  timestamp: Date;
+}
 
 const Chatbot = () => {
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useState('');
+  const sendRef = useRef<HTMLButtonElement>(null);
+  const FUCNTION_URL = 'https://api.openai.com/v1/chat/completions';
+  const [inputValue, setInputValue] = useState('');
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      text: "You saw a cat. it is curious about you, but it doesn't make any sound.",
+      sender: 'bot',
+      timestamp: new Date()
+    }
+  ]);
   
+  // Handle new message submission
+  const newMessage: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    setInputValue('');
+    const newMessage: Message[] = [...messages, {
+      text: inputValue,
+      sender: 'user',
+      timestamp: new Date()
+    }];
+    const response = await fetch(FUCNTION_URL, {
+      method: 'POST',
+      body: JSON.stringify({ messages: newMessage })
+    });
+    setMessages(
+      [...newMessage, {
+        text: await response.text(),
+        sender: 'bot',
+        timestamp: new Date()
+      }]
+    )
+  }
+
   //dynamically adjust the height of the textarea
   const adjustHeight = () => {
     const textarea = textareaRef.current;
@@ -31,39 +70,45 @@ const Chatbot = () => {
       textarea.style.overflowY = 'auto';
     }
   };
-
+  // Adjust height on initial render and when inputValue changes
   useEffect(() => {
     adjustHeight();
-  }, [value]);
+  }, [inputValue]);
 
   
   return (
     <div
-      className="flex flex-col w-full h-full bg-white rounded-lg shadow-lg sm:w-1/3 sm:h-5/6"
+      className="flex flex-col w-full h-full min-w-100 bg-white rounded-lg shadow-lg sm:w-1/3 sm:h-5/6"
     >
       
       <div id="chat-title" className="flex-[1] bg-orange-400 rounded-t-lg">
         <h2>Chatbot</h2>
       </div>
 
-      <div id="chat-field" className="flex-[5] p-6">
-        <ChatBubble text={"something over here"} />
-        <ChatBubble text={"something over here"} side="right" />
-        <ChatBubble text={"something over here"} />
+      <div id="chat-field" className="flex-[5] p-6 space-y-3 overflow-auto">
+        {messages.map((message, index) => 
+          <ChatBubble 
+            key={index}
+            text={message.text} 
+            side={message.sender === 'user' ? 'right' : 'left'}
+          />
+        )}
       </div>
 
       <div id="send-field" className="flex px-6 py-4 border border-t-0 border-orange-300 rounded-b-lg">
         <form 
+          onSubmit={newMessage}
           className="flex justify-center items-center gap-2 w-full">
           <textarea
             ref={textareaRef}
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
             rows={1}
             placeholder="Say something to the cat..."
             className="w-90 px-2 py-2 leading-6 border border-orange-300 resize-none rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400/70 scrollbar-orange"
           /> 
           <Button 
+            ref={sendRef}
             variant="default_cat" 
             className="w-20" type="submit" value="Send">Send</Button>
         </form>

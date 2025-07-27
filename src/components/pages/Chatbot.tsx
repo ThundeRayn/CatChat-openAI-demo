@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../../components/ui/button"
+import ChatBubble from "../../components/ui/chatbubble"
 
 const Chatbot = () => {
 
@@ -37,17 +38,18 @@ const Chatbot = () => {
 
   
   return (
-    <div 
-      className="flex flex-col h-5/6 w-3/7 min-w-100 min-h-100 rounded-lg shadow-lg bg-white">
+    <div
+      className="flex flex-col w-full h-full bg-white rounded-lg shadow-lg sm:w-1/3 sm:h-5/6"
+    >
       
       <div id="chat-title" className="flex-[1] bg-orange-400 rounded-t-lg">
         <h2>Chatbot</h2>
       </div>
 
       <div id="chat-field" className="flex-[5] p-6">
-        <p>something there</p>
-        <p>something there</p>
-        <p>something there</p>
+        <ChatBubble text={"something over here"} />
+        <ChatBubble text={"something over here"} side="right" />
+        <ChatBubble text={"something over here"} />
       </div>
 
       <div id="send-field" className="flex px-6 py-4 border border-t-0 border-orange-300 rounded-b-lg">
@@ -66,9 +68,7 @@ const Chatbot = () => {
             className="w-20" type="submit" value="Send">Send</Button>
         </form>
       </div>
-  
     </div>
   )
 }
-
-export default Chatbot
+export default Chatbot;

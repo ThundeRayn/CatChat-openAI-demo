@@ -78,7 +78,7 @@ const Chatbot = () => {
     >
       
       <div id="chat-title" className="flex-[1] flex justify-center items-center bg-orange-400 rounded-t-lg shadow-lg">
-        <img src="../../../public/cat-with-wry-smile-svgrepo-com.svg" alt="logo" width="30" height="30"/>
+        <img src="/cat-with-wry-smile-svgrepo-com.svg" alt="logo" width={30} height={30} />
       </div>
 
       <div id="chat-field" className="flex-[5] p-6 space-y-3 overflow-auto">

@@ -1,47 +1,43 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../../components/ui/button"
 import ChatBubble from "../../components/ui/chatbubble"
-import { time } from "console";
 
+const FUNCTION_URL = 'https://ok35xbmgxbwcyn6metu6ygxbnq0mktyi.lambda-url.ca-central-1.on.aws/';
 
 type Message = {
   text: string;
   sender: 'user' | 'bot';
-  timestamp: Date;
 }
 
 const Chatbot = () => {
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const sendRef = useRef<HTMLButtonElement>(null);
-  const FUCNTION_URL = 'https://api.openai.com/v1/chat/completions';
   const [inputValue, setInputValue] = useState('');
   const [messages, setMessages] = useState<Message[]>([
     {
       text: "You saw a cat. it is curious about you, but it doesn't make any sound.",
-      sender: 'bot',
-      timestamp: new Date()
+      sender: 'bot'
     }
   ]);
   
   // Handle new message submission
-  const newMessage: React.FormEventHandler<HTMLFormElement> = async (e) => {
+ const newMessage: React.FormEventHandler = async (e) => {
     e.preventDefault();
     setInputValue('');
-    const newMessage: Message[] = [...messages, {
+    const newMessages: Message[] = [...messages, {
       text: inputValue,
-      sender: 'user',
-      timestamp: new Date()
+      sender: 'user'
     }];
-    const response = await fetch(FUCNTION_URL, {
+    setMessages(newMessages);
+    const response = await fetch(FUNCTION_URL, {
       method: 'POST',
       body: JSON.stringify({ messages: newMessage })
     });
     setMessages(
-      [...newMessage, {
+      [...newMessages, {
         text: await response.text(),
-        sender: 'bot',
-        timestamp: new Date()
+        sender: 'bot'
       }]
     )
   }
@@ -81,8 +77,8 @@ const Chatbot = () => {
       className="flex flex-col w-full h-full min-w-100 bg-white rounded-lg shadow-lg sm:w-1/3 sm:h-5/6"
     >
       
-      <div id="chat-title" className="flex-[1] bg-orange-400 rounded-t-lg">
-        <h2>Chatbot</h2>
+      <div id="chat-title" className="flex-[1] flex justify-center items-center bg-orange-400 rounded-t-lg shadow-lg">
+        <img src="../../../public/cat-with-wry-smile-svgrepo-com.svg" alt="logo" width="30" height="30"/>
       </div>
 
       <div id="chat-field" className="flex-[5] p-6 space-y-3 overflow-auto">

@@ -12,4 +12,7 @@ export default defineConfig({
     }),
     tailwindcss(),
   ],
+  build: {
+    outDir: 'dist', // ✅ This must match what Netlify expects
+  },
 })
